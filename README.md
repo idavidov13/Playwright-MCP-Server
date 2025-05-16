@@ -13,6 +13,8 @@ Set Up and Utilization of Playwright MCP (Model Context Protocol) Server in [Win
 -   [Test Data](#test-data)
 -   [Generate Test with Playwright MCP Server and GPT-4.1](#generate-test-with-playwright-mcp-server-and-gpt-41)
 -   [Generate Test with Playwright MCP Server and Claude 3.7 Sonnet (Thinking)](#generate-test-with-playwright-mcp-server-and-claude-3.7-sonnet-thinking)
+-   [Generate Test with Playwright MCP Server and DeepSeek R1](#generate-test-with-playwright-mcp-server-and-deepseek-r1)
+-   [Generate Test with Playwright MCP Server and SWE-1](#generate-test-with-playwright-mcp-server-and-swe-1)
 
 ## Introduction
 
@@ -27,6 +29,7 @@ You can find the repository with MVP(Minimal Viable Product) for [Playwright Aut
 -   GPT-4.1
 -   Claude 3.7 Sonnet (Thinking)
 -   DeepSeek R1
+-   SWE-1
 
 ## Prerequisites
 
@@ -151,3 +154,20 @@ npx playwright test yourTestName.spec.ts
 ```
 
 **Note:** The provided example was generated from the first time. Only update which was needed to be made was to change button name from 'Update Article' to 'Publish Article' in Edit Article step due to wrong locator setup.
+
+## Generate Test with Playwright MCP Server and SWE-1
+
+1. Select SWE-1 as a model
+2. Run the following prompt:
+
+```
+@swe-1.spec.ts Create a test case utilizing provided constanst for navigating to the web app, login, create/edit/delete an article. Try to verify the result after every major step. Use provided instructions
+```
+
+After completion of the test, you can run it with the following command:
+
+```sh
+npx playwright test yourTestName.spec.ts
+```
+
+**Note:** The provided example was generated from the first time. Updates which were needed to be made were to combine all tests (there were separate test for each action, which leads to failing tests due to single Log in), to remove one assertion for created/edited article ('await expect(app.articleAuthor).toContainText(email.split('@')[0]);'), to add `.first()` for the delete button and edit button, and to delete wrong navigation to article page. There are still unused locators, which were defined.
