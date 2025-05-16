@@ -1,0 +1,14 @@
+{
+  "name": "playwright-mcp-server",
+  "version": "1.0.0",
+  "description": "Set Up and Utilization of Playwright MCP (Model Context Protocol) Server",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "Ivan Davidov",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.18"
+  }
+}
