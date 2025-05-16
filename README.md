@@ -1,12 +1,11 @@
 # Playwright-MCP-Server
 Set Up and Utilization of Playwright MCP (Model Context Protocol) Server in [Windsurf IDE](https://windsurf.com/)
 
-# Main Goal
-Playwright MCP (Model Context Protocol) Server is a tool that allows you to generate better Playwright tests with LLMs by providing much helpful context to the LLMs and ability to interact with the browsers.
-
 ## Table of Contents
 
 -   [Introduction](#introduction)
+-   [Main Goal](#main-goal)
+-   [Used LLMs](#used-llms)
 -   [Prerequisites](#prerequisites)
 -   [Installation](#installation)
 -   [Configure Playwright MCP Server](#configure-playwright-mcp-server)
@@ -18,6 +17,15 @@ Playwright MCP (Model Context Protocol) Server is a tool that allows you to gene
 ## Introduction
 
 Playwright’s MCP (Multi-Channel Protocol) is a low-level protocol that enables communication between the Playwright client and browser servers (such as Chromium, Firefox, and WebKit). MCP is designed to be transport-agnostic, supporting communication over WebSockets, pipes, or other channels, and is the foundation for Playwright’s cross-browser automation capabilities.
+
+## Main Goal
+Playwright MCP (Model Context Protocol) Server is a tool that allows you to generate better Playwright tests with LLMs by providing much helpful context to the LLMs and ability to interact with the browsers. I try to generate tests for web app [Conduit](https://conduit.bondaracademy.com/) and compare the final results.
+You can find the repository with MVP(Minimal Viable Product) for [Playwright Automation Framework](https://github.com/idavidov13/Playwright-Framework) for the same web app, which features TypeScript, Page Object Model Design Pattern, Custom Fixtures, REST API Testing and Mocking, Schema Validation with Zod, Environment Utilization, and CI/CD integration with GitHub Actions and GitLab CI/CD which I created before this repository.
+
+### Used LLMs
+
+-   GPT-4.1
+-   Claude 3.7 Sonnet (Thinking)
 
 
 ## Prerequisites
