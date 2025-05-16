@@ -26,13 +26,12 @@ You can find the repository with MVP(Minimal Viable Product) for [Playwright Aut
 
 -   GPT-4.1
 -   Claude 3.7 Sonnet (Thinking)
-
+-   DeepSeek R1
 
 ## Prerequisites
 
 -   **Node.js** (version 20.13.1 or later)
 -   **npm** (version 10 or later)
-
 
 ## Installation
 
@@ -135,3 +134,20 @@ npx playwright test yourTestName.spec.ts
 ```
 
 **Note:** The provided example was generated from the first time. Only update which was needed to be made was to remove 'articleContent' locator due to wrong behavior. 
+
+## Generate Test with Playwright MCP Server and DeepSeek R1
+
+1. Select DeepSeek R1 as a model
+2. Run the following prompt:
+
+```
+@deepseek-R1.spec.ts Create a test case utilizing provided constanst for navigating to the web app, login, create/edit/delete an article. Try to verify the result after every major step. Use provided instructions
+```
+
+After completion of the test, you can run it with the following command:
+
+```sh
+npx playwright test yourTestName.spec.ts
+```
+
+**Note:** The provided example was generated from the first time. Only update which was needed to be made was to change button name from 'Update Article' to 'Publish Article' in Edit Article step due to wrong locator setup.
