@@ -16,6 +16,8 @@ Set Up and Utilization of Playwright MCP (Model Context Protocol) Server in [Win
 -   [Generate Test with Playwright MCP Server and DeepSeek R1](#generate-test-with-playwright-mcp-server-and-deepseek-r1)
 -   [Generate Test with Playwright MCP Server and SWE-1](#generate-test-with-playwright-mcp-server-and-swe-1)
 -   [Generate Test with Playwright MCP Server and xAI Grok-3](#generate-test-with-playwright-mcp-server-and-xai-grok-3)
+-   [Comparison of Generated Tests](#comparison-of-generated-tests)
+-   [Disclaimer](#disclaimer)
 
 ## Introduction
 
@@ -190,3 +192,145 @@ npx playwright test yourTestName.spec.ts
 ```
 
 **Note:** The provided example was generated from the first time. Updates which were needed to be made were to remove incorrect assertion (`await expect(this.page.getByRole('link', { name: 'Your Feed' })).toBeVisible();`), to add `.first()` for the delete button and edit button, and updete assertion after delete article button click (`await expect(this.page.getByText(updatedArticleTitle)).toBeVisible();`).
+
+## Comparison of Generated Tests
+
+### Comparison Criterias
+
+1. Code quality (structure, modularity, error handling)
+2. Readability (clarity, naming, comments, formatting)
+3. Adherence to Playwright and automation best practices (locator usage, assertions, reusability, maintainability)
+
+### Comparison Results
+
+1. **Claude 3.7 Sonnet (Thinking)**
+
+    * Code Quality
+
+        * Uses a well-structured Page Object Model (ConduitPage), grouping locators and actions as class methods/getters.
+        * Good encapsulation and reusability; all page interactions are abstracted.
+        * Uses role-based locators (getByRole) and avoids hardcoded selectors.
+        * Handles login state check before logging in.
+
+    * Readability
+
+        * Clear and descriptive method names.
+        * Consistent formatting and variable naming.
+        * Minimal comments, but code is self-explanatory.
+
+    * Best Practices
+
+        * Follows Playwright best practices: web-first assertions, role-based locators, and modularity.
+        * Uses environment variables for config.
+        * No hardcoded timeouts.
+        * Test scenario is end-to-end and readable.
+
+2. **Deepseek-R1**
+
+    * Code Quality
+
+        * No Page Object Model; all actions are inline within the test.
+        * Uses constants for credentials and article data.
+        * Directly uses Playwright locators in test steps.
+        * Lacks abstraction and reusability.
+
+    * Readability
+
+        * Simple, readable, but less maintainable for larger tests.
+        * Variable names are clear.
+        * Test is split into logical sections (Create/Edit/Delete).
+        
+    * Best Practices
+
+        * Uses role-based selectors and web-first assertions.
+        * No modularization; not scalable for larger suites.
+        * No comments, but the structure is easy to follow.
+
+3. **GPT-4.1**
+
+    * Code Quality
+
+        * Implements a Page Object Model (ArticlePage), with grouped locators and actions.
+        * Uses nested objects for navigation, forms, and article actions.
+        * Uses role-based and parameterized locators.
+        * Good encapsulation and reusability.
+
+    * Readability
+
+        * Very clear structure, logical grouping, and descriptive method/variable names.
+        * Minimal comments, but code is self-explanatory.
+        * Consistent formatting.
+
+    * Best Practices
+
+        * Follows Playwright best practices: role-based selectors, web-first assertions, config via env vars.
+        * No hardcoded timeouts.
+        * Test covers all CRUD actions and checks for post-deletion state.
+
+4. **SWE-1**
+
+    * Code Quality
+
+        * Implements a Page Object Model (ConduitApp) with private getters for locators and methods for actions.
+        * Good encapsulation and modularity.
+        * Uses role-based selectors and web-first assertions.
+        * Has beforeAll/afterAll hooks for setup/teardown.
+
+    * Readability
+
+        * Clear and descriptive method names.
+        * Consistent formatting and logical structure.
+
+    * Best Practices
+
+        * Follows Playwright recommendations: modularity, role-based selectors, web-first assertions.
+        * Uses environment variables.
+        * Test is comprehensive and checks all CRUD operations.
+
+5.  **xAI-Grok-3**
+
+    * Code Quality
+
+        * Implements a Page Object Model (ConduitApp) but with all data hardcoded inside methods.
+        * Each action is a single method; no parameterization.
+        * Uses role-based selectors and web-first assertions.
+        * Less flexible for reusability.
+
+    * Readability
+
+        * Simple and readable, but less scalable.
+        * Method names are clear, but lack parameterization for reuse.
+        * Minimal comments.
+
+    * Best Practices
+
+        * Uses Playwright best practices for selectors and assertions.
+        * No modularization of test data.
+        * Test steps are clear and sequential.
+
+### Comparative Table
+
+| File | POM Used | Abstraction | Readability | Best Practices | Scalability | Comments | Manual Updates |  
+|---------------------------------------|----------|-------------|-------------|---------------|-------------|--------------------|------------------|
+| Claude 3.7 Sonnet (Thinking) | Yes | High | High | Yes | High | Well-structured | Low |
+| Deepseek-R1 | No | Low | Medium | Partial | Low | Inline logic | Low |
+| GPT-4.1 | Yes | High | High | Yes | High | Well-structured | Low |
+| SWE-1 | Yes | High | High | Yes | High | Hooks used, Old Setup/Teardown | High |
+| xAI-Grok-3 | Yes | Medium | Medium | Yes | Medium | No parameterization| Medium |
+
+### Conclusion
+* **Best Overall (Code Quality & Best Practices)**:
+    * GPT-4.1 and Claude 3.7 Sonnet (Thinking) stand out for their structured Page Object Models, modularity, and adherence to Playwright best practices. Both are highly maintainable and readable, with good abstraction and scalability.
+    * SWE-1 is also strong, but could improve old browser setup/teardown. There was a need to manually update the test/locators after generation.
+* Most Readable for Small Tests:
+    * Deepseek R1 and xAI Grok-3 are readable and easy to follow for small, simple scenarios but lack abstraction and scalability for larger suites.
+* Best for Large Automation Suites:
+    * GPT-4.1 and Claude 3.7 Sonnet (Thinking) are preferred due to their maintainability, modularity, and extensibility.
+
+## Disclaimer
+
+This repository is intended for informational and educational purposes only. It compares the capabilities of five different Large Language Models (LLMs) in generating a single test case for Playwright, utilizing the Playwright MCP Server with the same input. The results and analyses presented do not imply any endorsement or disapproval of any specific LLM. Performance and outputs are subject to variation based on a range of factors, including but not limited to the specific input data and environment setup.
+
+The information in this repository is provided "as is," and no warranty, express or implied, is made regarding its accuracy, reliability, or completeness. Users are advised to independently verify any results and exercise their discretion when interpreting and utilizing the findings. The authors and contributors assume no responsibility for any consequences arising from the use of the content provided within this repository.
+
+For detailed information on the capabilities and limitations of the individual LLMs, please refer to their respective official documentation and licensing terms.
