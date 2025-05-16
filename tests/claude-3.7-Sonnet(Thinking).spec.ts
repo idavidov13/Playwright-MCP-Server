@@ -58,7 +58,6 @@ class ConduitPage {
 
     // Verify article was created
     await expect(this.articleTitleHeading).toHaveText(title);
-    await expect(this.articleTitleHeading).toHaveText(title);
   }
 
   async editArticle(title: string, about: string, content: string) {
@@ -86,7 +85,6 @@ test.describe('Conduit Article Management', () => {
     // Navigate to the application
     await conduitPage.navigate();
     await expect(page).toHaveTitle(/Conduit/);
-    const ss = page.locator('article').getByRole('paragraph').first()
     
     // Login (if not already logged in)
     await conduitPage.login();
