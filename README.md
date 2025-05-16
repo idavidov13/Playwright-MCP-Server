@@ -12,7 +12,8 @@ Playwright MCP (Model Context Protocol) Server is a tool that allows you to gene
 -   [Configure Playwright MCP Server](#configure-playwright-mcp-server)
 -   [Add Custom Instructions](#add-custom-instructions)
 -   [Test Data](#test-data)
--   [Generate Test with Playwright MCP Server and GP    T-4.1](#generate-test-with-playwright-mcp-server-and-gpt-41)
+-   [Generate Test with Playwright MCP Server and GPT-4.1](#generate-test-with-playwright-mcp-server-and-gpt-41)
+-   [Generate Test with Playwright MCP Server and Claude 3.7 Sonnet (Thinking)](#generate-test-with-playwright-mcp-server-and-claude-3.7-sonnet-thinking)
 
 ## Introduction
 
@@ -99,7 +100,7 @@ const updatedArticleContent = 'This article has been updated';
 2. Run the following prompt:
 
 ```
-@articles.spec.ts Create a test case utilizing provided constanst for navigating to the web app, login, create/edit/delete an article. Try to verify the result after every major step. Use provided instructions
+@gpt-4.1.spec.ts Create a test case utilizing provided constanst for navigating to the web app, login, create/edit/delete an article. Try to verify the result after every major step. Use provided instructions
 ```
 
 After completion of the test, you can run it with the following command:
@@ -109,3 +110,20 @@ npx playwright test yourTestName.spec.ts
 ```
 
 **Note:** The provided example was generated from the first time. Only update which was needed to be made was to specify `.first()` for the delete button and edit button. 
+
+## Generate Test with Playwright MCP Server and Claude 3.7 Sonnet (Thinking)
+
+1. Select Claude 3.7 Sonnet (Thinking) as a model
+2. Run the following prompt:
+
+```
+@claude-3.7-Sonnet(Thinking).spec.ts Create a test case utilizing provided constanst for navigating to the web app, login, create/edit/delete an article. Try to verify the result after every major step. Use provided instructions
+```
+
+After completion of the test, you can run it with the following command:
+
+```sh
+npx playwright test yourTestName.spec.ts
+```
+
+**Note:** The provided example was generated from the first time. Only update which was needed to be made was to remove 'articleContent' locator due to wrong behavior. 
