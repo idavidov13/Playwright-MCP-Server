@@ -15,6 +15,7 @@ Set Up and Utilization of Playwright MCP (Model Context Protocol) Server in [Win
 -   [Generate Test with Playwright MCP Server and Claude 3.7 Sonnet (Thinking)](#generate-test-with-playwright-mcp-server-and-claude-3.7-sonnet-thinking)
 -   [Generate Test with Playwright MCP Server and DeepSeek R1](#generate-test-with-playwright-mcp-server-and-deepseek-r1)
 -   [Generate Test with Playwright MCP Server and SWE-1](#generate-test-with-playwright-mcp-server-and-swe-1)
+-   [Generate Test with Playwright MCP Server and xAI Grok-3](#generate-test-with-playwright-mcp-server-and-xai-grok-3)
 
 ## Introduction
 
@@ -30,6 +31,7 @@ You can find the repository with MVP(Minimal Viable Product) for [Playwright Aut
 -   Claude 3.7 Sonnet (Thinking)
 -   DeepSeek R1
 -   SWE-1
+-   xAI Grok-3
 
 ## Prerequisites
 
@@ -171,3 +173,20 @@ npx playwright test yourTestName.spec.ts
 ```
 
 **Note:** The provided example was generated from the first time. Updates which were needed to be made were to combine all tests (there were separate test for each action, which leads to failing tests due to single Log in), to remove one assertion for created/edited article ('await expect(app.articleAuthor).toContainText(email.split('@')[0]);'), to add `.first()` for the delete button and edit button, and to delete wrong navigation to article page. There are still unused locators, which were defined.
+
+## Generate Test with Playwright MCP Server and xAI Grok-3
+
+1. Select xAI Grok-3 as a model
+2. Run the following prompt:
+
+```
+@xai-grok-3.spec.ts Create a test case utilizing provided constanst for navigating to the web app, login, create/edit/delete an article. Try to verify the result after every major step. Use provided instructions
+```
+
+After completion of the test, you can run it with the following command:
+
+```sh
+npx playwright test yourTestName.spec.ts
+```
+
+**Note:** The provided example was generated from the first time. Updates which were needed to be made were to remove incorrect assertion (`await expect(this.page.getByRole('link', { name: 'Your Feed' })).toBeVisible();`), to add `.first()` for the delete button and edit button, and updete assertion after delete article button click (`await expect(this.page.getByText(updatedArticleTitle)).toBeVisible();`).
