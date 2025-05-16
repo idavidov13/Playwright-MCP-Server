@@ -29,7 +29,7 @@ class ConduitApp {
   private get deleteArticleButton() { return this.page.getByRole('button', { name: 'Delete Article' }).first(); }
   private get articleTitle() { return this.page.locator('h1'); }
   private get articleContent() { return this.page.locator('div.article-content > p'); }
-  get articleAuthor() { return this.page.locator('.author'); }
+  private get articleAuthor() { return this.page.locator('.author'); }
   private get articleMeta() { return this.page.locator('.article-meta'); }
 
   // Actions
