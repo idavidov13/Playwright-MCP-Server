@@ -224,10 +224,12 @@ npx playwright test yourTestName.spec.ts
     * Discoverability: Less transparent for someone reading the test and wanting to know what elements are available.
 
 3. Using Objects for Locators - GPT-4.1
-```locators = {
+```
+locators = {
   usernameInput: this.page.getByLabel('Username'),
   passwordInput: this.page.getByLabel('Password')
-}```
+}
+```
 * Pros:
 
     * Centralized: All locators are grouped in one object, making them easy to find and update.
