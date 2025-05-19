@@ -115,7 +115,7 @@ const updatedArticleContent = 'This article has been updated';
 2. Run the following prompt:
 
 ```
-@gpt-4.1.spec.ts Create a test case utilizing provided constanst for navigating to the web app, login, create/edit/delete an article. Try to verify the result after every major step. Use provided instructions
+@gpt-4.1.spec.ts Create a test case utilizing provided constants for navigating to the web app, login, create/edit/delete an article. Try to verify the result after every major step. Use provided instructions
 ```
 
 After completion of the test, you can run it with the following command:
@@ -132,7 +132,7 @@ npx playwright test yourTestName.spec.ts
 2. Run the following prompt:
 
 ```
-@claude-3.7-Sonnet(Thinking).spec.ts Create a test case utilizing provided constanst for navigating to the web app, login, create/edit/delete an article. Try to verify the result after every major step. Use provided instructions
+@claude-3.7-Sonnet(Thinking).spec.ts Create a test case utilizing provided constants for navigating to the web app, login, create/edit/delete an article. Try to verify the result after every major step. Use provided instructions
 ```
 
 After completion of the test, you can run it with the following command:
@@ -149,7 +149,7 @@ npx playwright test yourTestName.spec.ts
 2. Run the following prompt:
 
 ```
-@deepseek-R1.spec.ts Create a test case utilizing provided constanst for navigating to the web app, login, create/edit/delete an article. Try to verify the result after every major step. Use provided instructions
+@deepseek-R1.spec.ts Create a test case utilizing provided constants for navigating to the web app, login, create/edit/delete an article. Try to verify the result after every major step. Use provided instructions
 ```
 
 After completion of the test, you can run it with the following command:
@@ -166,7 +166,7 @@ npx playwright test yourTestName.spec.ts
 2. Run the following prompt:
 
 ```
-@swe-1.spec.ts Create a test case utilizing provided constanst for navigating to the web app, login, create/edit/delete an article. Try to verify the result after every major step. Use provided instructions
+@swe-1.spec.ts Create a test case utilizing provided constants for navigating to the web app, login, create/edit/delete an article. Try to verify the result after every major step. Use provided instructions
 ```
 
 After completion of the test, you can run it with the following command:
@@ -183,7 +183,7 @@ npx playwright test yourTestName.spec.ts
 2. Run the following prompt:
 
 ```
-@xai-grok-3.spec.ts Create a test case utilizing provided constanst for navigating to the web app, login, create/edit/delete an article. Try to verify the result after every major step. Use provided instructions
+@xai-grok-3.spec.ts Create a test case utilizing provided constants for navigating to the web app, login, create/edit/delete an article. Try to verify the result after every major step. Use provided instructions
 ```
 
 After completion of the test, you can run it with the following command:
