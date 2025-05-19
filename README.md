@@ -224,10 +224,11 @@ npx playwright test yourTestName.spec.ts
     * Discoverability: Less transparent for someone reading the test and wanting to know what elements are available.
 
 3. Using Objects for Locators - GPT-4.1
-```
-locators = {
-  usernameInput: this.page.getByLabel('Username'),
-  passwordInput: this.page.getByLabel('Password')
+```ts
+loginForm = {
+    email: this.page.getByRole('textbox', { name: 'Email' }),
+    password: this.page.getByRole('textbox', { name: 'Password' }),
+    submit: this.page.getByRole('button', { name: 'Sign in' }),
 }
 ```
 * Pros:
@@ -241,6 +242,12 @@ locators = {
     * Less Encapsulation: Test code may access locators directly, leading to less controlled interactions.
 
 4. Using Methods Directly - xAI-Grok-3
+```ts
+async navigateToHome() {
+    await this.page.goto(url);
+    await expect(this.page.getByRole('heading', { name: 'conduit' })).toBeVisible();
+}
+```
 * Pros:
 
     * Encapsulation: Only exposes actions, not locators, enforcing the Page Object pattern strictly.
