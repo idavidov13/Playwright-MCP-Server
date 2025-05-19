@@ -96,7 +96,7 @@ You write concise, technical TypeScript code with accurate examples and the corr
 
 Create a test file "yourTestName.spec.ts" add the test data as follows:
 
-```
+```ts
 const url = process.env.URL || 'https://conduit.bondaracademy.com/';
 const email = process.env.EMAIL || 'yourEmail';
 const password = process.env.PASSWORD || 'yourPassword';
@@ -199,7 +199,9 @@ npx playwright test yourTestName.spec.ts
 ### Comparison of Page Object initialization patterns
 
 1. Using Getters for Locators - Claude 3.7 Sonnet (Thinking)
-`get usernameInput() { return this.page.getByLabel('Username'); }`
+```ts
+get usernameInput() { return this.page.getByLabel('Username'); }
+```
 * Pros:
 
     * Lazy Evaluation: Locators are created only when accessed, ensuring up-to-date references.
@@ -212,7 +214,9 @@ npx playwright test yourTestName.spec.ts
     * Inheritance: Overriding getters in subclasses can be less straightforward than overriding fields.
 
 2. Using Private Getters - SWE-1
-`private get usernameInput() { return this.page.getByLabel('Username'); }`
+```ts
+private get usernameInput() { return this.page.getByLabel('Username'); }
+```
 * Pros:
 
     * Encapsulation: Prevents direct access from outside the class, enforcing usage only within class methods.
