@@ -16,6 +16,7 @@ Set Up and Utilization of Playwright MCP (Model Context Protocol) Server in [Win
 -   [Generate Test with Playwright MCP Server and DeepSeek R1](#generate-test-with-playwright-mcp-server-and-deepseek-r1)
 -   [Generate Test with Playwright MCP Server and SWE-1](#generate-test-with-playwright-mcp-server-and-swe-1)
 -   [Generate Test with Playwright MCP Server and xAI Grok-3](#generate-test-with-playwright-mcp-server-and-xai-grok-3)
+-   [Comparison of Generated POMs](#comparison-of-generated-poms)
 -   [Comparison of Generated Tests](#comparison-of-generated-tests)
 -   [Disclaimer](#disclaimer)
 
@@ -192,6 +193,80 @@ npx playwright test yourTestName.spec.ts
 ```
 
 **Note:** The provided example was generated from the first time. Updates which were needed to be made were to remove incorrect assertion (`await expect(this.page.getByRole('link', { name: 'Your Feed' })).toBeVisible();`), to add `.first()` for the delete button and edit button, and updete assertion after delete article button click (`await expect(this.page.getByText(updatedArticleTitle)).toBeVisible();`).
+
+## Comparison of Generated POMs
+
+### Comparison of Page Object initialization patterns
+
+1. Using Getters for Locators - Claude 3.7 Sonnet (Thinking)
+`get usernameInput() { return this.page.getByLabel('Username'); }`
+* Pros:
+
+    * Lazy Evaluation: Locators are created only when accessed, ensuring up-to-date references.
+    * Readability: Clean, property-like access (pageObject.usernameInput).
+    * Encapsulation: Easy to add logic or assertions in the getter if needed.
+    * IntelliSense: Good support in editors for auto-completion.
+* Cons:
+
+    * Performance: Each access creates a new locator (though Playwright locators are lightweight).
+    * Inheritance: Overriding getters in subclasses can be less straightforward than overriding fields.
+
+2. Using Private Getters - SWE-1
+`private get usernameInput() { return this.page.getByLabel('Username'); }`
+* Pros:
+
+    * Encapsulation: Prevents direct access from outside the class, enforcing usage only within class methods.
+    * Cleaner API: Exposes only actions, not locators, to test code.
+    * Reduces Misuse: Prevents test code from making direct assertions on locators.
+* Cons:
+
+    * Test Flexibility: Makes it harder to write custom assertions or interact directly with elements from the test.
+    * Discoverability: Less transparent for someone reading the test and wanting to know what elements are available.
+
+3. Using Objects for Locators - GPT-4.1
+```locators = {
+  usernameInput: this.page.getByLabel('Username'),
+  passwordInput: this.page.getByLabel('Password')
+}```
+* Pros:
+
+    * Centralized: All locators are grouped in one object, making them easy to find and update.
+    * Reusability: Can be passed around or reused in utility functions.
+    * Eager Initialization: Locators are created once in the constructor, potentially improving performance.
+* Cons:
+
+    * Stale Locators: If the page reloads or changes, locators may become stale (though Playwright locators are resilient, this can still be a concern).
+    * Less Encapsulation: Test code may access locators directly, leading to less controlled interactions.
+
+4. Using Methods Directly - xAI-Grok-3
+* Pros:
+
+    * Encapsulation: Only exposes actions, not locators, enforcing the Page Object pattern strictly.
+    * API Clarity: Test code reads like user actions (pageObject.fillUsername('foo')).
+    * Maintainability: Easy to update selectors in one place, and logic can be added to methods.
+* Cons:
+
+    * Reduced Flexibility: Cannot easily make custom assertions or interact with elements outside provided methods.
+    * Verbosity: May require many methods for complex pages, leading to bloated classes.
+
+Summary Table
+| Pattern | Encapsulation | Flexibility | Readability | Staleness Risk | API Surface |
+|--------------------------|:------------:|:-----------:|:-----------:|:--------------:|:-----------:|
+| Getters | Medium | High | High | Low | Medium |
+| Private Getters | High | Medium | Medium | Low | Low |
+| Objects for Locators | Low | High | Medium | Medium | High |
+| Methods Directly | High | Low | High | Low | Low |
+
+### When to Use Each
+
+**Getters:** When you want readable code and flexibility, and are OK with exposing locators.
+
+**Private Getters:** When you want to strictly encapsulate element access, exposing only actions.
+
+**Objects for Locators:** When you want centralized, reusable locators and are not concerned with strict encapsulation.
+
+**Methods Directly:** When you want the cleanest, most maintainable API and are OK with less flexibility in tests.
+
 
 ## Comparison of Generated Tests
 
