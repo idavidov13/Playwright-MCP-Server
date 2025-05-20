@@ -1,8 +1,8 @@
 import { test, expect, Page } from '@playwright/test';
 
-const url = process.env.URL;
-const email = process.env.EMAIL;
-const password = process.env.PASSWORD;
+const url = process.env.URL!;
+const email = process.env.EMAIL!;
+const password = process.env.PASSWORD!;
 const articleTitle = `Test Article for Playwright MCP Server ${Date.now()}`;
 const articleAbout = 'This is a test article about Playwright MCP Server';
 const articleContent = 'This article is created by Playwright MCP Server test automation';
@@ -13,30 +13,38 @@ const updatedArticleContent = 'This article has been updated';
 class ArticlePage {
   constructor(private page: Page) {}
 
-  nav = {
-    signIn: this.page.getByRole('link', { name: 'Sign in' }),
-    newArticle: this.page.getByRole('link', { name: /New Article/ }),
-    username: (username: string) => this.page.getByRole('link', { name: username }),
-  };
+  get nav() {
+    return {
+      signIn: this.page.getByRole('link', { name: 'Sign in' }),
+      newArticle: this.page.getByRole('link', { name: /New Article/ }),
+      username: (username: string) => this.page.getByRole('link', { name: username }),
+    };
+  }
 
-  loginForm = {
-    email: this.page.getByRole('textbox', { name: 'Email' }),
-    password: this.page.getByRole('textbox', { name: 'Password' }),
-    submit: this.page.getByRole('button', { name: 'Sign in' }),
-  };
+  get loginForm() {
+    return {
+      email: this.page.getByRole('textbox', { name: 'Email' }),
+      password: this.page.getByRole('textbox', { name: 'Password' }),
+      submit: this.page.getByRole('button', { name: 'Sign in' }),
+    };
+  }
 
-  editorForm = {
-    title: this.page.getByRole('textbox', { name: 'Article Title' }),
-    about: this.page.getByRole('textbox', { name: "What's this article about?" }),
-    content: this.page.getByRole('textbox', { name: /Write your article/ }),
-    publish: this.page.getByRole('button', { name: 'Publish Article' }),
-  };
+  get editorForm() {
+    return {
+      title: this.page.getByRole('textbox', { name: 'Article Title' }),
+      about: this.page.getByRole('textbox', { name: "What's this article about?" }),
+      content: this.page.getByRole('textbox', { name: /Write your article/ }),
+      publish: this.page.getByRole('button', { name: 'Publish Article' }),
+    };
+  }
 
-  article = {
-    title: (title: string) => this.page.getByRole('heading', { name: title }),
-    edit: this.page.getByRole('link', { name: /Edit Article/ }).first(),
-    delete: this.page.getByRole('button', { name: /Delete Article/ }).first(),
-  };
+  get article() {
+    return {
+      title: (title: string) => this.page.getByRole('heading', { name: title }),
+      edit: this.page.getByRole('link', { name: /Edit Article/ }).first(),
+      delete: this.page.getByRole('button', { name: /Delete Article/ }).first(),
+    };
+  }
 
   async login(email: string, password: string, username: string) {
     await this.nav.signIn.click();
