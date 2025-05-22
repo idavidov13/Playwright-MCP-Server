@@ -229,21 +229,24 @@ private get usernameInput() { return this.page.getByLabel('Username'); }
 
 3. Using Objects for Locators - GPT-4.1
 ```ts
-loginForm = {
+get loginForm () {
+    return {
     email: this.page.getByRole('textbox', { name: 'Email' }),
     password: this.page.getByRole('textbox', { name: 'Password' }),
     submit: this.page.getByRole('button', { name: 'Sign in' }),
 }
+}
 ```
 * Pros:
 
+    * Lazy Evaluation: Locators are created only when accessed, ensuring up-to-date references.
     * Centralized: All locators are grouped in one object, making them easy to find and update.
-    * Reusability: Can be passed around or reused in utility functions.
-    * Eager Initialization: Locators are created once in the constructor, potentially improving performance.
+    * Encapsulation: Easy to add logic or assertions in the getter if needed.
+    * IntelliSense: Good support in editors for auto-completion.
 * Cons:
 
-    * Stale Locators: If the page reloads or changes, locators may become stale (though Playwright locators are resilient, this can still be a concern).
-    * Less Encapsulation: Test code may access locators directly, leading to less controlled interactions.
+    * Performance: Each access creates a new locator (though Playwright locators are lightweight).
+    * Inheritance: Overriding getters in subclasses can be less straightforward than overriding fields.
 
 4. Using Methods Directly - xAI-Grok-3
 ```ts
