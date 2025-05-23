@@ -16,8 +16,11 @@ Set Up and Utilization of Playwright MCP (Model Context Protocol) Server in [Win
 -   [Generate Test with Playwright MCP Server and DeepSeek R1](#generate-test-with-playwright-mcp-server-and-deepseek-r1)
 -   [Generate Test with Playwright MCP Server and SWE-1](#generate-test-with-playwright-mcp-server-and-swe-1)
 -   [Generate Test with Playwright MCP Server and xAI Grok-3](#generate-test-with-playwright-mcp-server-and-xai-grok-3)
+-   [Generate Test with Playwright MCP Server and Claude 4 Sonnet](#generate-test-with-playwright-mcp-server-and-claude-4-sonnet)
+-   [Generate Test with Playwright MCP Server and Claude 4 Opus](#generate-test-with-playwright-mcp-server-and-claude-4-opus)
 -   [Comparison of Generated POMs](#comparison-of-generated-poms)
 -   [Comparison of Generated Tests](#comparison-of-generated-tests)
+-   [Comparison between Claude-4-Opus, Claude-4-Sonnet and GPT-4.1](#comparison-between-claude-4-opus-claude-4-sonnet-and-gpt-4.1)
 -   [Disclaimer](#disclaimer)
 
 ## Introduction
@@ -194,6 +197,40 @@ npx playwright test yourTestName.spec.ts
 
 **Note:** The provided example was generated from the first time. Updates which were needed to be made were to remove incorrect assertion (`await expect(this.page.getByRole('link', { name: 'Your Feed' })).toBeVisible();`), to add `.first()` for the delete button and edit button, and updete assertion after delete article button click (`await expect(this.page.getByText(updatedArticleTitle)).toBeVisible();`).
 
+## Generate Test with Playwright MCP Server and Claude 4 Sonnet
+
+1. Select Claude 4 Sonnet as a model
+2. Run the following prompt:
+
+```
+@claude-4-sonnet.spec.ts Create a test case utilizing provided constants for navigating to the web app, login, create/edit/delete an article. Try to verify the result after every major step. Use provided instructions
+```
+
+After completion of the test, you can run it with the following command:
+
+```sh
+npx playwright test yourTestName.spec.ts
+```
+
+**Note:** The provided example was generated from the first time and no updates were made
+
+## Generate Test with Playwright MCP Server and Claude 4 Opus
+
+1. Select Claude 4 Opus as a model
+2. Run the following prompt:
+
+```
+@claude-4-opus.spec.ts Create a test case utilizing provided constants for navigating to the web app, login, create/edit/delete an article. Try to verify the result after every major step. Use provided instructions
+```
+
+After completion of the test, you can run it with the following command:
+
+```sh
+npx playwright test yourTestName.spec.ts
+```
+
+**Note:** The provided example was generated from the first time and no updates were made
+
 ## Comparison of Generated POMs
 
 ### Comparison of Page Object initialization patterns
@@ -265,7 +302,8 @@ async navigateToHome() {
     * Reduced Flexibility: Cannot easily make custom assertions or interact with elements outside provided methods.
     * Verbosity: May require many methods for complex pages, leading to bloated classes.
 
-Summary Table
+### Summary Table
+
 | Pattern | Encapsulation | Flexibility | Readability | Staleness Risk | API Surface |
 |--------------------------|:------------:|:-----------:|:-----------:|:--------------:|:-----------:|
 | Getters | Medium | High | High | Low | Medium |
@@ -417,6 +455,51 @@ Summary Table
     * Deepseek R1 and xAI Grok-3 are readable and easy to follow for small, simple scenarios but lack abstraction and scalability for larger suites.
 * Best for Large Automation Suites:
     * GPT-4.1 and Claude 3.7 Sonnet (Thinking) are preferred due to their maintainability, modularity, and extensibility.
+
+## Comparison between Claude-4-Opus, Claude-4-Sonnet and GPT-4.1
+
+1. Common Patterns
+
+    * Class-based Page Object Model:
+    All three files define an ArticlePage class that encapsulates page interactions and locators using getters for navigation, forms, and article actions.
+    
+    * Lazy Locators:
+    Locators are exposed as getters, ensuring up-to-date references to DOM elements (lazy evaluation).
+    
+    * Action Methods:
+    Each class provides methods for login, article creation, editing, and deletion, using the encapsulated locators.
+    
+    * Test Flow:
+        - Each test file has a single E2E test that:
+        - Navigates to the app
+        - Logs in
+        - Creates an article
+        - Edits the article
+        - Deletes the article
+        - Verifies deletion
+    
+    * Use of Playwright Best Practices:
+        - Role-based locators (getByRole)
+        - Web-first assertions (toBeVisible, toHaveURL, etc.)
+        - No hardcoded timeouts except for explicit waits
+
+2. Differences
+
+| Aspect | claude-4-Opus.spec.ts | claude-4-Sonnet.spec.ts | gpt-4.1.spec.ts |
+|---------------------------|-----------------------|----------------------|----------------|
+| Test Description | Generic E2E for articles | E2E with more step-by-step checks| Generic E2E for articles |
+| ArticlePage Structure | Has nav, loginForm, editorForm, article getters with nested functions for dynamic locators | Nearly identical to Opus, but with more explicit verification steps in the test | Slightly simplified; nav getter lacks home link, and some verification steps are omitted |
+| Assertions | Checks URLs, visibility, and content after each action | More granular: checks for navigation, login, creation, editing, deletion with explicit comments | Fewer assertions, especially after login and during edit/delete |
+| Test Data | Uses Playwright MCP Server branding in article content | Uses Claude Sonnet branding in article content | Uses generic/shorter content and updated fields |
+| Locator Patterns | All use role-based locators, dynamic getter for username | Identical pattern | Identical, but slightly less comprehensive in navigation locators |
+| Cleanup/Verification | After deletion, checks profile for absence of articles | Same as Opus | Same as Opus, but with less robust assertion (no timeout on final expect) |
+| Comments/Readability | Moderate inline comments | More step-by-step comments | Fewer comments |
+
+3. Key Takeaways
+    - All three tests use a modern, maintainable Playwright pattern with class-based encapsulation and lazy locators.
+    - The main differences are in test data, assertion thoroughness, and the level of documentation/comments.
+    - The claude-4-Sonnet test is the most explicit and robust in terms of stepwise verification and comments.
+    - The gpt-4.1 test is the most minimal, which could make it less robust for regression testing but easier to maintain for simple flows.
 
 ## Disclaimer
 
